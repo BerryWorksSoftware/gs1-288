@@ -16,7 +16,7 @@ import java.io.IOException;
 public class ShippingLabelCreator {
     public static final String PDF_FILENAME = "temp.pdf";
 
-    public File createLabel(String xml) throws IOException {
+    public File createLabel(ShippingLabelContent slc) throws IOException {
         final File file = new File(PDF_FILENAME);
         final PdfWriter pdfWriter = new PdfWriter(file);
         final PdfDocument pdfDocument = new PdfDocument(pdfWriter);
@@ -54,7 +54,7 @@ public class ShippingLabelCreator {
         //
         // Zone H - SSCC
         //
-        table.addCell(createSSCC(pdfDocument, "00123456789012345678"));
+        table.addCell(createSSCC(pdfDocument, slc.getSSCC()));
         //
         // Finish
         //
@@ -72,7 +72,7 @@ public class ShippingLabelCreator {
         barcode.setCodeType(Barcode128.CODE128_UCC);
         barcode.setCode(sscc);
         barcode.setAltText(displaySSCC(sscc));
-//        barcode.setAltText("(00) 1 2345678 901234567 8");
+
         final Image image = new Image(barcode.createFormXObject(null, null, inPdfDocument));
         image.setHorizontalAlignment(HorizontalAlignment.CENTER);
         ssccCell.add(image);
@@ -81,6 +81,10 @@ public class ShippingLabelCreator {
 
     private String displaySSCC(String sscc) {
         if (sscc == null || sscc.length() != 20) return sscc;
+        //  (00) 1 2345678 901234567 8
+        //   +   + +       +         +
+        //   0   2 3       10        19   index of sub-field
+        //
         StringBuilder sb = new StringBuilder("(");
         sb.append(sscc.substring(0, 2)).append(") ");
         sb.append(sscc.substring(2, 3)).append(" ");

@@ -16,7 +16,9 @@ public class ShippingLabelCreatorTest
   public void basics() throws IOException
   {
     creator = new ShippingLabelCreator();
-    pdf = creator.createLabel("xml ...");
+    final ShippingLabelContent slc = new ShippingLabelContent();
+    slc.setSscc("00123456789012345678");
+    pdf = creator.createLabel(slc);
     assertTrue(pdf.exists());
   }
 }

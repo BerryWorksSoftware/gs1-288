@@ -1,11 +1,9 @@
 package com.berryworks.labels;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.junit.Test;
 
-import com.itextpdf.text.DocumentException;
+import java.io.File;
+import java.io.IOException;
 
 import static org.junit.Assert.assertTrue;
 
@@ -15,7 +13,7 @@ public class ShippingLabelCreatorTest
   private File pdf;
 
   @Test
-  public void basics() throws IOException, DocumentException
+  public void basics() throws IOException
   {
     creator = new ShippingLabelCreator();
     pdf = creator.createLabel("xml ...");

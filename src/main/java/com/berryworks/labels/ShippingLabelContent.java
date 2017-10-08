@@ -5,6 +5,7 @@ public class ShippingLabelContent {
     private String sscc;
     private PartyIdentification shipTo;
     private String purchaseOrderNumber;
+    private CarrierInformation carrier;
 
     public String getSSCC() {
         return sscc;
@@ -28,5 +29,13 @@ public class ShippingLabelContent {
 
     public void setPurchaseOrderNumber(String purchaseOrderNumber) {
         this.purchaseOrderNumber = purchaseOrderNumber;
+    }
+
+    public void setCarrier(CarrierInformation carrier) {
+        this.carrier = carrier;
+    }
+
+    public CarrierInformation getCarrier() {
+        return carrier;
     }
 }

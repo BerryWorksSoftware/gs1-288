@@ -24,6 +24,9 @@ public class ShippingLabelCreatorTest {
         shipTo.setPostalCode_N403("77070");
         slc.setShipTo(shipTo);
         slc.setPurchaseOrderNumber("ABC213");
+        final CarrierInformation carrierInformation = new CarrierInformation();
+        carrierInformation.setSCAC("EUSA");
+        slc.setCarrier(carrierInformation);
         pdf = creator.createLabel(slc);
         assertTrue(pdf.exists());
     }

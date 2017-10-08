@@ -35,9 +35,7 @@ public class ShippingLabelCreator {
         //
         // Zone D - Carrier
         //
-        final Cell carrierCell = new Cell();
-        carrierCell.add("Carrier");
-        table.addCell(carrierCell);
+        table.addCell(createCarrier(slc.getCarrier()));
         //
         // Zone E - PO
         //
@@ -64,6 +62,13 @@ public class ShippingLabelCreator {
         document.add(table);
         document.close();
         return file;
+    }
+
+    private Cell createCarrier(CarrierInformation carrier) {
+        final Cell carrierCell = new Cell();
+        carrierCell.add("Carrier:");
+        carrierCell.add(carrier.getCarrierName());
+        return carrierCell;
     }
 
     private Cell createPurchaseOrderDetail(ShippingLabelContent slc) {

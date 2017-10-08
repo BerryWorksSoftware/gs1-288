@@ -23,10 +23,14 @@ public class ShippingLabelCreator {
         final Document document = new Document(pdfDocument);
         Table table = new Table(2);
         table.addCell("From");
-        table.addCell("To");
-        final Cell shipToCell = new Cell();
-        shipToCell.add("Ship To");
-        table.addCell(shipToCell);
+        //
+        // Zone B - Ship To (readable)
+        //
+        table.addCell(getShipToText(slc));
+        // Zone C - Ship To: postal code as barcode
+        final Cell shipToPostalCodeCell = new Cell();
+        shipToPostalCodeCell.add("Ship To");
+        table.addCell(shipToPostalCodeCell);
         //
         // Zone D - Carrier
         //
@@ -61,6 +65,17 @@ public class ShippingLabelCreator {
         document.add(table);
         document.close();
         return file;
+    }
+
+    private Cell getShipToText(ShippingLabelContent slc) {
+        final Cell shipToClearText = new Cell();
+        shipToClearText.add("To");
+        final PartyIdentification shipTo = slc.getShipTo();
+        shipToClearText.add(shipTo.getName_N102());
+//        shipToClearText.add(slc.getShipTo().getAddressLine1_N301());
+//        shipToClearText.add(slc.getShipTo().getAddressLine2_N302());
+        shipToClearText.add(shipTo.getCityStateZip());
+        return shipToClearText;
     }
 
     private Cell createSSCC(PdfDocument inPdfDocument, String sscc) {

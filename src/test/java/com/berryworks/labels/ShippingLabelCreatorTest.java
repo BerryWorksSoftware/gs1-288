@@ -7,18 +7,23 @@ import java.io.IOException;
 
 import static org.junit.Assert.assertTrue;
 
-public class ShippingLabelCreatorTest
-{
-  private ShippingLabelCreator creator;
-  private File pdf;
+public class ShippingLabelCreatorTest {
+    private ShippingLabelCreator creator;
+    private File pdf;
 
-  @Test
-  public void basics() throws IOException
-  {
-    creator = new ShippingLabelCreator();
-    final ShippingLabelContent slc = new ShippingLabelContent();
-    slc.setSscc("00123456789012345678");
-    pdf = creator.createLabel(slc);
-    assertTrue(pdf.exists());
-  }
+    @Test
+    public void basics() throws IOException {
+        creator = new ShippingLabelCreator();
+        final ShippingLabelContent slc = new ShippingLabelContent();
+        slc.setSscc("00123456789012345678");
+        final PartyIdentification shipTo = new PartyIdentification();
+        shipTo.setType_N101("ST");
+        shipTo.setName_N102("John Smith");
+        shipTo.setCity_N401("Houston");
+        shipTo.setStateOrProvince_N402("TX");
+        shipTo.setPostalCode_N403("77070");
+        slc.setShipTo(shipTo);
+        pdf = creator.createLabel(slc);
+        assertTrue(pdf.exists());
+    }
 }

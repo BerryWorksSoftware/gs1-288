@@ -23,6 +23,7 @@ public class ShippingLabelCreatorTest {
         shipTo.setStateOrProvince_N402("TX");
         shipTo.setPostalCode_N403("77070");
         slc.setShipTo(shipTo);
+        slc.setPurchaseOrderNumber("ABC213");
         pdf = creator.createLabel(slc);
         assertTrue(pdf.exists());
     }

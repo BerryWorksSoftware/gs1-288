@@ -41,9 +41,7 @@ public class ShippingLabelCreator {
         //
         // Zone E - PO
         //
-        final Cell poCell = new Cell(1, 2);
-        poCell.add("PO");
-        table.addCell(poCell);
+        table.addCell(createPurchaseOrderDetail(slc));
         //
         // Zone F - UPC
         //
@@ -68,14 +66,21 @@ public class ShippingLabelCreator {
         return file;
     }
 
+    private Cell createPurchaseOrderDetail(ShippingLabelContent slc) {
+        final Cell poCell = new Cell(1, 2);
+        poCell.add("PO# " + slc.getPurchaseOrderNumber());
+        return poCell;
+    }
+
     private Cell createShipToPostalBarcode(PdfDocument pdfDocument, PartyIdentification shipTo) {
         final Cell shipToPostalCodeCell = new Cell();
         shipToPostalCodeCell.add("Ship To Postal Code:");
 
         final Barcode128 barCode = new Barcode128(pdfDocument);
         final String postalCode = shipTo.getPostalCode_N403();
-        barCode.setCode(postalCode);
-        barCode.setAltText(displayPostalCode(postalCode));
+        final String postalCodeWithPrefix = "420" + postalCode;
+        barCode.setCode(postalCodeWithPrefix);
+        barCode.setAltText(displayPostalCode(postalCodeWithPrefix));
         final Image image = new Image(barCode.createFormXObject(null, null, pdfDocument));
         image.setHorizontalAlignment(HorizontalAlignment.CENTER);
         shipToPostalCodeCell.add(image);
@@ -109,12 +114,16 @@ public class ShippingLabelCreator {
     }
 
     private String displayPostalCode(String postalCode) {
-        if (postalCode == null || postalCode.length() == 0) return null;
+        if (postalCode == null || postalCode.length() < 0) return null;
+        final String prefix = postalCode.substring(0, 3);
+        final StringBuilder sb = new StringBuilder("(").append(prefix).append(") ");
+        postalCode = postalCode.substring(3);
         if (postalCode.length() == 9) {
-            return postalCode.substring(0, 5) + "-" + postalCode.substring(5);
+            sb.append(postalCode.substring(0, 5)).append("-").append(postalCode.substring(5));
         } else {
-            return postalCode;
+            sb.append(postalCode);
         }
+        return sb.toString();
     }
 
     private String displaySSCC(String sscc) {

@@ -4,6 +4,7 @@ public class ShippingLabelContent {
 
     private String sscc;
     private PartyIdentification shipTo;
+    private String purchaseOrderNumber;
 
     public String getSSCC() {
         return sscc;
@@ -19,5 +20,13 @@ public class ShippingLabelContent {
 
     public void setShipTo(PartyIdentification shipTo) {
         this.shipTo = shipTo;
+    }
+
+    public String getPurchaseOrderNumber() {
+        return purchaseOrderNumber;
+    }
+
+    public void setPurchaseOrderNumber(String purchaseOrderNumber) {
+        this.purchaseOrderNumber = purchaseOrderNumber;
     }
 }

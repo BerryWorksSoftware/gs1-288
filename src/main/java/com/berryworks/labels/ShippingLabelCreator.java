@@ -15,6 +15,7 @@ import java.io.IOException;
 
 public class ShippingLabelCreator {
     public static final String PDF_FILENAME = "temp.pdf";
+    public static final float FONT_SIZE = 8.0f;
 
     public File createLabel(ShippingLabelContent slc) throws IOException {
         final File file = new File(PDF_FILENAME);
@@ -26,11 +27,11 @@ public class ShippingLabelCreator {
         //
         // Zone B - Ship To (readable)
         //
-        table.addCell(getShipToText(slc));
+        table.addCell(createShipToText(slc));
+        //
         // Zone C - Ship To: postal code as barcode
-        final Cell shipToPostalCodeCell = new Cell();
-        shipToPostalCodeCell.add("Ship To");
-        table.addCell(shipToPostalCodeCell);
+        //
+        table.addCell(createShipToPostalBarcode(pdfDocument, slc.getShipTo()));
         //
         // Zone D - Carrier
         //
@@ -67,21 +68,34 @@ public class ShippingLabelCreator {
         return file;
     }
 
-    private Cell getShipToText(ShippingLabelContent slc) {
+    private Cell createShipToPostalBarcode(PdfDocument pdfDocument, PartyIdentification shipTo) {
+        final Cell shipToPostalCodeCell = new Cell();
+        shipToPostalCodeCell.add("Ship To Postal Code:");
+
+        final Barcode128 barCode = new Barcode128(pdfDocument);
+        final String postalCode = shipTo.getPostalCode_N403();
+        barCode.setCode(postalCode);
+        barCode.setAltText(displayPostalCode(postalCode));
+        final Image image = new Image(barCode.createFormXObject(null, null, pdfDocument));
+        image.setHorizontalAlignment(HorizontalAlignment.CENTER);
+        shipToPostalCodeCell.add(image);
+
+        return shipToPostalCodeCell;
+    }
+
+    private Cell createShipToText(ShippingLabelContent slc) {
         final Cell shipToClearText = new Cell();
-        shipToClearText.add("To");
+        shipToClearText.add("TO:");
         final PartyIdentification shipTo = slc.getShipTo();
-        shipToClearText.add(shipTo.getName_N102());
-//        shipToClearText.add(slc.getShipTo().getAddressLine1_N301());
-//        shipToClearText.add(slc.getShipTo().getAddressLine2_N302());
-        shipToClearText.add(shipTo.getCityStateZip());
+        shipToClearText.add(new Paragraph(shipTo.getName_N102()).setFontSize(FONT_SIZE));
+        shipToClearText.add(new Paragraph(shipTo.getCityStateZip()).setFontSize(FONT_SIZE));
         return shipToClearText;
     }
 
     private Cell createSSCC(PdfDocument inPdfDocument, String sscc) {
         final Cell ssccCell = new Cell(1, 2);
         final Paragraph paragraph = new Paragraph("SSCC-18");
-        paragraph.setFontSize(8.0f);
+        paragraph.setFontSize(FONT_SIZE);
         ssccCell.add(paragraph);
         final Barcode128 barcode = new Barcode128(inPdfDocument);
         barcode.setCodeType(Barcode128.CODE128_UCC);
@@ -92,6 +106,15 @@ public class ShippingLabelCreator {
         image.setHorizontalAlignment(HorizontalAlignment.CENTER);
         ssccCell.add(image);
         return ssccCell;
+    }
+
+    private String displayPostalCode(String postalCode) {
+        if (postalCode == null || postalCode.length() == 0) return null;
+        if (postalCode.length() == 9) {
+            return postalCode.substring(0, 5) + "-" + postalCode.substring(5);
+        } else {
+            return postalCode;
+        }
     }
 
     private String displaySSCC(String sscc) {

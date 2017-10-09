@@ -25,7 +25,9 @@ public class ShippingLabelCreatorTest {
         slc.setShipTo(shipTo);
         slc.setPurchaseOrderNumber("ABC213");
         final CarrierInformation carrierInformation = new CarrierInformation();
-        carrierInformation.setSCAC("EUSA");
+        carrierInformation.setScac("EUSA");
+        carrierInformation.setBillOfLading("9379562");
+        carrierInformation.setProInvoice("2659739");
         slc.setCarrier(carrierInformation);
         pdf = creator.createLabel(slc);
         assertTrue(pdf.exists());

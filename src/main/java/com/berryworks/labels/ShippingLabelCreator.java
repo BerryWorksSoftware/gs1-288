@@ -70,6 +70,14 @@ public class ShippingLabelCreator {
         final Cell carrierCell = new Cell();
         carrierCell.add("Carrier:");
         carrierCell.add(carrier.getCarrierName());
+        final String proInvoice = carrier.getProInvoice();
+        if (isPresent(proInvoice)) {
+            carrierCell.add("PRO: " + proInvoice);
+        }
+        final String billOfLading = carrier.getBillOfLading();
+        if (isPresent(billOfLading)) {
+            carrierCell.add("B/L: " + billOfLading);
+        }
         return carrierCell;
     }
 

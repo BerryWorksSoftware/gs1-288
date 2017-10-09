@@ -13,9 +13,11 @@ import com.itextpdf.layout.property.HorizontalAlignment;
 import java.io.File;
 import java.io.IOException;
 
+import static com.berryworks.edireader.util.FixedLength.isPresent;
+
 public class ShippingLabelCreator {
-    public static final String PDF_FILENAME = "temp.pdf";
-    public static final float FONT_SIZE = 8.0f;
+    private static final String PDF_FILENAME = "temp.pdf";
+    private static final float FONT_SIZE = 8.0f;
 
     public File createLabel(ShippingLabelContent slc) throws IOException {
         final File file = new File(PDF_FILENAME);
@@ -119,7 +121,8 @@ public class ShippingLabelCreator {
     }
 
     private String displayPostalCode(String postalCode) {
-        if (postalCode == null || postalCode.length() < 0) return null;
+        if (!isPresent(postalCode)) return "";
+        if (postalCode.length() < 8) return postalCode;
         final String prefix = postalCode.substring(0, 3);
         final StringBuilder sb = new StringBuilder("(").append(prefix).append(") ");
         postalCode = postalCode.substring(3);
@@ -137,12 +140,10 @@ public class ShippingLabelCreator {
         //   +   + +       +         +
         //   0   2 3       10        19   index of sub-field
         //
-        StringBuilder sb = new StringBuilder("(");
-        sb.append(sscc.substring(0, 2)).append(") ");
-        sb.append(sscc.substring(2, 3)).append(" ");
-        sb.append(sscc.substring(3, 10)).append(" ");
-        sb.append(sscc.substring(10, 19)).append(" ");
-        sb.append(sscc.substring(19, 20));
-        return sb.toString();
+        return "(" + sscc.substring(0, 2) + ") " +
+                sscc.substring(2, 3) + " " +
+                sscc.substring(3, 10) + " " +
+                sscc.substring(10, 19) + " " +
+                sscc.substring(19, 20);
     }
 }

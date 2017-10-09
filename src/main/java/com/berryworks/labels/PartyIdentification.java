@@ -67,10 +67,6 @@ public class PartyIdentification {
     }
 
     public String getCityStateZip() {
-        StringBuilder result = new StringBuilder();
-        result.append(getCity_N401()).append(", ");
-        result.append(getStateOrProvince_N402()).append("  ");
-        result.append(getPostalCode_N403());
-        return result.toString();
+        return getCity_N401() + ", " + getStateOrProvince_N402() + "  " + getPostalCode_N403();
     }
 }

@@ -8,6 +8,19 @@
     <artifactId>gs1-128</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
     <properties>
         <edireader.core.version>5.4.9</edireader.core.version>
         <itext.version>7.0.4</itext.version>

@@ -1,5 +1,7 @@
 package com.berryworks.labels;
 
+import static com.berryworks.edireader.util.FixedLength.isPresent;
+
 public class CarrierInformation {
 
     private String scac;
@@ -22,8 +24,9 @@ public class CarrierInformation {
     }
 
     public String getCarrierName() {
-        if (scac != null && scac.length() > 0) {
-            return scac;
+        if (isPresent(scac)) {
+            final String name = ScacDictionary.getName(scac);
+            return isPresent(name) ? name : scac;
         }
         return nonScacName;
     }

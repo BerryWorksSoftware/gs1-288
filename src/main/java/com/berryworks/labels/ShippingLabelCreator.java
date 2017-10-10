@@ -130,12 +130,20 @@ public class ShippingLabelCreator {
         return ssccCell;
     }
 
-    private Cell createNameAndAddressCell(String title, PartyIdentification shipFrom) {
-        final Cell shipFromCell = new Cell();
-        shipFromCell.add(title + ":");
-        shipFromCell.add(new Paragraph(shipFrom.getName_N102()).setFontSize(FONT_SIZE));
-        shipFromCell.add(new Paragraph(shipFrom.getCityStateZip()).setFontSize(FONT_SIZE));
-        return shipFromCell;
+    private Cell createNameAndAddressCell(String title, PartyIdentification party) {
+        final Cell cell = new Cell();
+        cell.add(title + ":");
+        cell.add(new Paragraph(party.getName_N102()).setFontSize(FONT_SIZE));
+        final String addressLine1 = party.getAddressLine1_N301();
+        if (isPresent(addressLine1)) {
+            cell.add(new Paragraph(addressLine1).setFontSize(FONT_SIZE));
+            final String addressLine2 = party.getAddressLine2_N302();
+            if (isPresent(addressLine2)) {
+                cell.add(new Paragraph(addressLine2).setFontSize(FONT_SIZE));
+            }
+        }
+        cell.add(new Paragraph(party.getCityStateZip()).setFontSize(FONT_SIZE));
+        return cell;
     }
 
     private String displayPostalCode(String postalCode) {

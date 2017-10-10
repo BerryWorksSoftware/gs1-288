@@ -2,17 +2,18 @@ package com.berryworks.labels;
 
 public class ShippingLabelContent {
 
-    private String sscc;
+    private PartyIdentification shipFrom;
     private PartyIdentification shipTo;
     private String purchaseOrderNumber;
     private CarrierInformation carrier;
+    private String sscc;
 
-    public String getSSCC() {
-        return sscc;
+    public void setShipFrom(PartyIdentification shipFrom) {
+        this.shipFrom = shipFrom;
     }
 
-    public void setSscc(String sscc) {
-        this.sscc = sscc;
+    public PartyIdentification getShipFrom() {
+        return shipFrom;
     }
 
     public PartyIdentification getShipTo() {
@@ -37,5 +38,13 @@ public class ShippingLabelContent {
 
     public CarrierInformation getCarrier() {
         return carrier;
+    }
+
+    public String getSSCC() {
+        return sscc;
+    }
+
+    public void setSscc(String sscc) {
+        this.sscc = sscc;
     }
 }

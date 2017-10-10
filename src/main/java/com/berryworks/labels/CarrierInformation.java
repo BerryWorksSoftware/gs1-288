@@ -6,8 +6,8 @@ public class CarrierInformation {
 
     private String scac;
     private String nonScacName;
-    private String billOfLading;
-    private String proInvoice;
+    private String billOfLading_REF_BM;
+    private String proInvoice_REF_CN;
 
     public String getSCAC() {
         return scac;
@@ -29,20 +29,20 @@ public class CarrierInformation {
         this.nonScacName = nonScacName;
     }
 
-    public String getBillOfLading() {
-        return billOfLading;
+    public String getBillOfLading_REF_BM() {
+        return billOfLading_REF_BM;
     }
 
-    public void setBillOfLading(String billOfLading) {
-        this.billOfLading = billOfLading;
+    public void setBillOfLading_REF_BM(String billOfLading_REF_BM) {
+        this.billOfLading_REF_BM = billOfLading_REF_BM;
     }
 
-    public String getProInvoice() {
-        return proInvoice;
+    public String getProInvoice_REF_CN() {
+        return proInvoice_REF_CN;
     }
 
-    public void setProInvoice(String proInvoice) {
-        this.proInvoice = proInvoice;
+    public void setProInvoice_REF_CN(String proInvoice_REF_CN) {
+        this.proInvoice_REF_CN = proInvoice_REF_CN;
     }
 
     public String getCarrierName() {

@@ -25,11 +25,14 @@ public class ShippingLabelCreator {
         final PdfDocument pdfDocument = new PdfDocument(pdfWriter);
         final Document document = new Document(pdfDocument);
         Table table = new Table(2);
-        table.addCell("From");
+        //
+        // Zone A - From
+        //
+        table.addCell(createShipFrom(slc.getShipFrom()));
         //
         // Zone B - Ship To (readable)
         //
-        table.addCell(createShipToText(slc));
+        table.addCell(createShipTo(slc.getShipTo()));
         //
         // Zone C - Ship To: postal code as barcode
         //
@@ -66,25 +69,12 @@ public class ShippingLabelCreator {
         return file;
     }
 
-    private Cell createCarrier(CarrierInformation carrier) {
-        final Cell carrierCell = new Cell();
-        carrierCell.add("Carrier:");
-        carrierCell.add(carrier.getCarrierName());
-        final String proInvoice = carrier.getProInvoice();
-        if (isPresent(proInvoice)) {
-            carrierCell.add("PRO: " + proInvoice);
-        }
-        final String billOfLading = carrier.getBillOfLading();
-        if (isPresent(billOfLading)) {
-            carrierCell.add("B/L: " + billOfLading);
-        }
-        return carrierCell;
+    private Cell createShipFrom(PartyIdentification shipFrom) {
+        return createNameAndAddressCell("FROM", shipFrom);
     }
 
-    private Cell createPurchaseOrderDetail(ShippingLabelContent slc) {
-        final Cell poCell = new Cell(1, 2);
-        poCell.add("PO# " + slc.getPurchaseOrderNumber());
-        return poCell;
+    private Cell createShipTo(PartyIdentification shipTo) {
+        return createNameAndAddressCell("TO", shipTo);
     }
 
     private Cell createShipToPostalBarcode(PdfDocument pdfDocument, PartyIdentification shipTo) {
@@ -103,13 +93,25 @@ public class ShippingLabelCreator {
         return shipToPostalCodeCell;
     }
 
-    private Cell createShipToText(ShippingLabelContent slc) {
-        final Cell shipToClearText = new Cell();
-        shipToClearText.add("TO:");
-        final PartyIdentification shipTo = slc.getShipTo();
-        shipToClearText.add(new Paragraph(shipTo.getName_N102()).setFontSize(FONT_SIZE));
-        shipToClearText.add(new Paragraph(shipTo.getCityStateZip()).setFontSize(FONT_SIZE));
-        return shipToClearText;
+    private Cell createCarrier(CarrierInformation carrier) {
+        final Cell carrierCell = new Cell();
+        carrierCell.add("Carrier:");
+        carrierCell.add(carrier.getCarrierName());
+        final String proInvoice = carrier.getProInvoice_REF_CN();
+        if (isPresent(proInvoice)) {
+            carrierCell.add("PRO: " + proInvoice);
+        }
+        final String billOfLading = carrier.getBillOfLading_REF_BM();
+        if (isPresent(billOfLading)) {
+            carrierCell.add("B/L: " + billOfLading);
+        }
+        return carrierCell;
+    }
+
+    private Cell createPurchaseOrderDetail(ShippingLabelContent slc) {
+        final Cell poCell = new Cell(1, 2);
+        poCell.add("PO# " + slc.getPurchaseOrderNumber());
+        return poCell;
     }
 
     private Cell createSSCC(PdfDocument inPdfDocument, String sscc) {
@@ -126,6 +128,14 @@ public class ShippingLabelCreator {
         image.setHorizontalAlignment(HorizontalAlignment.CENTER);
         ssccCell.add(image);
         return ssccCell;
+    }
+
+    private Cell createNameAndAddressCell(String title, PartyIdentification shipFrom) {
+        final Cell shipFromCell = new Cell();
+        shipFromCell.add(title + ":");
+        shipFromCell.add(new Paragraph(shipFrom.getName_N102()).setFontSize(FONT_SIZE));
+        shipFromCell.add(new Paragraph(shipFrom.getCityStateZip()).setFontSize(FONT_SIZE));
+        return shipFromCell;
     }
 
     private String displayPostalCode(String postalCode) {

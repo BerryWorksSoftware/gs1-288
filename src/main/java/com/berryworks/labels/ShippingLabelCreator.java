@@ -1,5 +1,9 @@
 package com.berryworks.labels;
 
+import com.berryworks.labels.model.CarrierInformation;
+import com.berryworks.labels.model.PartyIdentification;
+import com.berryworks.labels.model.ShippingLabelContent;
+import com.berryworks.labels.model.Zone;
 import com.itextpdf.barcodes.Barcode128;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;

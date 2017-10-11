@@ -1,5 +1,9 @@
 package com.berryworks.labels;
 
+import com.berryworks.labels.model.CarrierInformation;
+import com.berryworks.labels.model.PartyIdentification;
+import com.berryworks.labels.model.ShippingLabelContent;
+import com.berryworks.labels.model.Zone;
 import org.junit.Test;
 
 import java.io.File;

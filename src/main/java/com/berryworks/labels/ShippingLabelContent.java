@@ -1,5 +1,9 @@
 package com.berryworks.labels;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class ShippingLabelContent {
 
     private PartyIdentification shipFrom;
@@ -12,14 +16,16 @@ public class ShippingLabelContent {
     private Zone zoneH;
     private String sscc;
 
-    public void setShipFrom(PartyIdentification shipFrom) {
-        this.shipFrom = shipFrom;
-    }
-
+    @XmlElement
     public PartyIdentification getShipFrom() {
         return shipFrom;
     }
 
+    public void setShipFrom(PartyIdentification shipFrom) {
+        this.shipFrom = shipFrom;
+    }
+
+    @XmlElement
     public PartyIdentification getShipTo() {
         return shipTo;
     }
@@ -28,6 +34,7 @@ public class ShippingLabelContent {
         this.shipTo = shipTo;
     }
 
+    @XmlElement
     public String getPurchaseOrderNumber() {
         return purchaseOrderNumber;
     }
@@ -36,14 +43,16 @@ public class ShippingLabelContent {
         this.purchaseOrderNumber = purchaseOrderNumber;
     }
 
-    public void setCarrier(CarrierInformation carrier) {
-        this.carrier = carrier;
-    }
-
+    @XmlElement
     public CarrierInformation getCarrier() {
         return carrier;
     }
 
+    public void setCarrier(CarrierInformation carrier) {
+        this.carrier = carrier;
+    }
+
+    @XmlElement
     public Zone getZoneE() {
         return zoneE;
     }
@@ -52,6 +61,7 @@ public class ShippingLabelContent {
         this.zoneE = zoneE;
     }
 
+    @XmlElement
     public Zone getZoneF() {
         return zoneF;
     }
@@ -60,6 +70,7 @@ public class ShippingLabelContent {
         this.zoneF = zoneF;
     }
 
+    @XmlElement
     public Zone getZoneG() {
         return zoneG;
     }
@@ -68,6 +79,7 @@ public class ShippingLabelContent {
         this.zoneG = zoneG;
     }
 
+    @XmlElement
     public Zone getZoneH() {
         return zoneH;
     }
@@ -76,6 +88,7 @@ public class ShippingLabelContent {
         this.zoneH = zoneH;
     }
 
+    @XmlElement
     public String getSscc() {
         return sscc;
     }

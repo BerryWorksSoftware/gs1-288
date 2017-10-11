@@ -9,10 +9,6 @@ public class CarrierInformation {
     private String billOfLading_REF_BM;
     private String proInvoice_REF_CN;
 
-    public String getSCAC() {
-        return scac;
-    }
-
     public String getScac() {
         return scac;
     }
@@ -45,11 +41,7 @@ public class CarrierInformation {
         this.proInvoice_REF_CN = proInvoice_REF_CN;
     }
 
-    public String getCarrierName() {
-        if (isPresent(scac)) {
-            final String name = ScacDictionary.getName(scac);
-            return isPresent(name) ? name : scac;
-        }
-        return nonScacName;
+    public String expandCarrierNameFromSCAC() {
+        return isPresent(scac) ? ScacDictionary.getName(scac) : null;
     }
 }

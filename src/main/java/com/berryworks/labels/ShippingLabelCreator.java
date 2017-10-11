@@ -1,6 +1,7 @@
 package com.berryworks.labels;
 
 import com.itextpdf.barcodes.Barcode128;
+import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
@@ -18,12 +19,14 @@ import static com.berryworks.edireader.util.FixedLength.isPresent;
 public class ShippingLabelCreator {
     private static final String PDF_FILENAME = "temp.pdf";
     private static final float FONT_SIZE = 8.0f;
+    public static final int POINTS_PER_INCH = 72;
 
     public File createLabel(ShippingLabelContent slc) throws IOException {
         final File file = new File(PDF_FILENAME);
         final PdfWriter pdfWriter = new PdfWriter(file);
         final PdfDocument pdfDocument = new PdfDocument(pdfWriter);
-        final Document document = new Document(pdfDocument);
+        final PageSize pageSize = new PageSize(4 * POINTS_PER_INCH, 6 * POINTS_PER_INCH);
+        final Document document = new Document(pdfDocument, pageSize);
         Table table = new Table(2);
         //
         // Zone A - From
@@ -49,13 +52,13 @@ public class ShippingLabelCreator {
         // Zone F - UPC
         //
         final Cell upcCell = new Cell();
-        upcCell.add("UPC");
+        add(upcCell, "UPC");
         table.addCell(upcCell);
         //
         // Zone G - UPC
         //
         final Cell zoneGCell = new Cell();
-        zoneGCell.add("G");
+        add(zoneGCell, "G");
         table.addCell(zoneGCell);
         //
         // Zone H - SSCC
@@ -79,7 +82,7 @@ public class ShippingLabelCreator {
 
     private Cell createShipToPostalBarcode(PdfDocument pdfDocument, PartyIdentification shipTo) {
         final Cell shipToPostalCodeCell = new Cell();
-        shipToPostalCodeCell.add("Ship To Postal Code:");
+        add(shipToPostalCodeCell, "Ship To Postal Code:");
 
         final Barcode128 barCode = new Barcode128(pdfDocument);
         final String postalCode = shipTo.getPostalCode_N403();
@@ -95,30 +98,43 @@ public class ShippingLabelCreator {
 
     private Cell createCarrier(CarrierInformation carrier) {
         final Cell carrierCell = new Cell();
-        carrierCell.add("Carrier:");
-        carrierCell.add(carrier.getCarrierName());
+        add(carrierCell, "Carrier:");
+        final String scac = carrier.getScac();
+        if (isPresent(scac)) {
+            add(carrierCell, scac);
+            final String expandedName = carrier.expandCarrierNameFromSCAC();
+            if (isPresent(expandedName)) {
+                add(carrierCell, expandedName);
+            }
+        } else {
+            final String nonScacName = carrier.getNonScacName();
+            if (isPresent(nonScacName)) {
+                add(carrierCell, nonScacName);
+            }
+        }
         final String proInvoice = carrier.getProInvoice_REF_CN();
         if (isPresent(proInvoice)) {
-            carrierCell.add("PRO: " + proInvoice);
+            add(carrierCell, "PRO: " + proInvoice);
         }
         final String billOfLading = carrier.getBillOfLading_REF_BM();
         if (isPresent(billOfLading)) {
-            carrierCell.add("B/L: " + billOfLading);
+            add(carrierCell, "B/L: " + billOfLading);
         }
         return carrierCell;
     }
 
+    private Cell add(Cell cell, String line) {
+        cell.add(new Paragraph(line).setFontSize(FONT_SIZE));
+        return cell;
+    }
+
     private Cell createPurchaseOrderDetail(ShippingLabelContent slc) {
-        final Cell poCell = new Cell(1, 2);
-        poCell.add("PO# " + slc.getPurchaseOrderNumber());
-        return poCell;
+        return add(new Cell(1, 2), "PO# " + slc.getPurchaseOrderNumber());
     }
 
     private Cell createSSCC(PdfDocument inPdfDocument, String sscc) {
         final Cell ssccCell = new Cell(1, 2);
-        final Paragraph paragraph = new Paragraph("SSCC-18");
-        paragraph.setFontSize(FONT_SIZE);
-        ssccCell.add(paragraph);
+        add(ssccCell, "SSCC-18");
         final Barcode128 barcode = new Barcode128(inPdfDocument);
         barcode.setCodeType(Barcode128.CODE128_UCC);
         barcode.setCode(sscc);
@@ -132,17 +148,17 @@ public class ShippingLabelCreator {
 
     private Cell createNameAndAddressCell(String title, PartyIdentification party) {
         final Cell cell = new Cell();
-        cell.add(title + ":");
-        cell.add(new Paragraph(party.getName_N102()).setFontSize(FONT_SIZE));
+        add(cell, title + ":");
+        add(cell, party.getName_N102());
         final String addressLine1 = party.getAddressLine1_N301();
         if (isPresent(addressLine1)) {
-            cell.add(new Paragraph(addressLine1).setFontSize(FONT_SIZE));
-            final String addressLine2 = party.getAddressLine2_N302();
-            if (isPresent(addressLine2)) {
-                cell.add(new Paragraph(addressLine2).setFontSize(FONT_SIZE));
-            }
+            add(cell, addressLine1);
         }
-        cell.add(new Paragraph(party.getCityStateZip()).setFontSize(FONT_SIZE));
+        final String addressLine2 = party.getAddressLine2_N302();
+        if (isPresent(addressLine2)) {
+            add(cell, addressLine2);
+        }
+        add(cell, party.getCityStateZip());
         return cell;
     }
 

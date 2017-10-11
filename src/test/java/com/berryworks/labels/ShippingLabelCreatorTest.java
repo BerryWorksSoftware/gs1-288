@@ -40,6 +40,25 @@ public class ShippingLabelCreatorTest {
         carrierInformation.setBillOfLading_REF_BM("9379562");
         carrierInformation.setProInvoice_REF_CN("2659739");
         slc.setCarrier(carrierInformation);
+        // Zone E
+        final Zone zoneE = new Zone();
+        zoneE.setLine1("E1");
+        slc.setZoneE(zoneE);
+        // Zone F
+        final Zone zoneF = new Zone();
+        zoneF.setLine1("F1");
+        zoneF.setLine3("F3");
+        slc.setZoneF(zoneF);
+        // Zone G
+        final Zone zoneG = new Zone();
+        zoneG.setLine1("G1");
+        zoneG.setLine2("G2");
+        zoneG.setLine4("G4");
+        slc.setZoneG(zoneG);
+        // Zone H
+        final Zone zoneH = new Zone();
+        zoneH.setLine3("H3");
+        slc.setZoneH(zoneH);
         // SSCC
         slc.setSscc("00123456789012345678");
         // Create the printable label

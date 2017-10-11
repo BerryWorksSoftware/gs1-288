@@ -45,25 +45,25 @@ public class ShippingLabelCreator {
         //
         table.addCell(createCarrier(slc.getCarrier()));
         //
-        // Zone E - PO
+        // Zone E - general purpose
         //
-        table.addCell(createPurchaseOrderDetail(slc));
+        table.addCell(createGeneralPurposeCell(slc.getZoneE()));
         //
-        // Zone F - UPC
+        // Zone F - general purpose
         //
-        final Cell upcCell = new Cell();
-        add(upcCell, "UPC");
-        table.addCell(upcCell);
+        table.addCell(createGeneralPurposeCell(slc.getZoneF()));
         //
-        // Zone G - UPC
+        // Zone G - general purpose
         //
-        final Cell zoneGCell = new Cell();
-        add(zoneGCell, "G");
-        table.addCell(zoneGCell);
+        table.addCell(createGeneralPurposeCell(slc.getZoneG()));
         //
-        // Zone H - SSCC
+        // Zone H - general purpose
         //
-        table.addCell(createSSCC(pdfDocument, slc.getSSCC()));
+        table.addCell(createGeneralPurposeCell(slc.getZoneH()));
+        //
+        // Zone I - SSCC
+        //
+        table.addCell(createSSCC(pdfDocument, slc.getSscc()));
         //
         // Finish
         //
@@ -121,6 +121,30 @@ public class ShippingLabelCreator {
             add(carrierCell, "B/L: " + billOfLading);
         }
         return carrierCell;
+    }
+
+    private Cell createGeneralPurposeCell(Zone zone) {
+        final Cell cell = new Cell();
+        if (zone == null) {
+            return cell;
+        }
+        final String line1 = zone.getLine1();
+        if (isPresent(line1)) {
+            add(cell, line1);
+        }
+        final String line2 = zone.getLine2();
+        if (isPresent(line2)) {
+            add(cell, line2);
+        }
+        final String line3 = zone.getLine3();
+        if (isPresent(line3)) {
+            add(cell, line3);
+        }
+        final String line4 = zone.getLine4();
+        if (isPresent(line4)) {
+            add(cell, line4);
+        }
+        return cell;
     }
 
     private Cell add(Cell cell, String line) {

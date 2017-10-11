@@ -6,6 +6,10 @@ public class ShippingLabelContent {
     private PartyIdentification shipTo;
     private String purchaseOrderNumber;
     private CarrierInformation carrier;
+    private Zone zoneE;
+    private Zone zoneF;
+    private Zone zoneG;
+    private Zone zoneH;
     private String sscc;
 
     public void setShipFrom(PartyIdentification shipFrom) {
@@ -40,7 +44,39 @@ public class ShippingLabelContent {
         return carrier;
     }
 
-    public String getSSCC() {
+    public Zone getZoneE() {
+        return zoneE;
+    }
+
+    public void setZoneE(Zone zoneE) {
+        this.zoneE = zoneE;
+    }
+
+    public Zone getZoneF() {
+        return zoneF;
+    }
+
+    public void setZoneF(Zone zoneF) {
+        this.zoneF = zoneF;
+    }
+
+    public Zone getZoneG() {
+        return zoneG;
+    }
+
+    public void setZoneG(Zone zoneG) {
+        this.zoneG = zoneG;
+    }
+
+    public Zone getZoneH() {
+        return zoneH;
+    }
+
+    public void setZoneH(Zone zoneH) {
+        this.zoneH = zoneH;
+    }
+
+    public String getSscc() {
         return sscc;
     }
 

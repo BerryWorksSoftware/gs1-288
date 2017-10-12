@@ -2,18 +2,16 @@ package com.berryworks.labels.model;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement
+@XmlType(propOrder = {"shipFrom", "shipTo", "carrier", "sscc", "purchaseOrderNumber", "zoneE", "zoneF", "zoneG", "zoneH"})
 public class ShippingLabelContent {
 
-    private PartyIdentification shipFrom;
-    private PartyIdentification shipTo;
+    private PartyIdentification shipFrom, shipTo;
     private String purchaseOrderNumber;
     private CarrierInformation carrier;
-    private Zone zoneE;
-    private Zone zoneF;
-    private Zone zoneG;
-    private Zone zoneH;
+    private Zone zoneE, zoneF, zoneG, zoneH;
     private String sscc;
 
     @XmlElement

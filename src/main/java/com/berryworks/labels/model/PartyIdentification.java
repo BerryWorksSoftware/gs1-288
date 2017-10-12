@@ -1,5 +1,11 @@
 package com.berryworks.labels.model;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
+@XmlRootElement
+@XmlType(propOrder={"type_N101", "name_N102", "addressLine1_N301", "addressLine2_N302", "city_N401", "stateOrProvince_N402", "postalCode_N403"})
 public class PartyIdentification {
 
     private String type_N101;
@@ -10,6 +16,7 @@ public class PartyIdentification {
     private String stateOrProvince_N402;
     private String postalCode_N403;
 
+    @XmlElement
     public String getType_N101() {
         return type_N101;
     }
@@ -18,6 +25,7 @@ public class PartyIdentification {
         this.type_N101 = type_N101;
     }
 
+    @XmlElement
     public String getName_N102() {
         return name_N102;
     }
@@ -26,6 +34,7 @@ public class PartyIdentification {
         this.name_N102 = name_N102;
     }
 
+    @XmlElement
     public String getAddressLine1_N301() {
         return addressLine1_N301;
     }
@@ -34,6 +43,7 @@ public class PartyIdentification {
         this.addressLine1_N301 = addressLine1_N301;
     }
 
+    @XmlElement
     public String getAddressLine2_N302() {
         return addressLine2_N302;
     }
@@ -42,6 +52,7 @@ public class PartyIdentification {
         this.addressLine2_N302 = addressLine2_N302;
     }
 
+    @XmlElement
     public String getCity_N401() {
         return city_N401;
     }
@@ -50,6 +61,7 @@ public class PartyIdentification {
         this.city_N401 = city_N401;
     }
 
+    @XmlElement
     public String getStateOrProvince_N402() {
         return stateOrProvince_N402;
     }
@@ -58,6 +70,7 @@ public class PartyIdentification {
         this.stateOrProvince_N402 = stateOrProvince_N402;
     }
 
+    @XmlElement
     public String getPostalCode_N403() {
         return postalCode_N403;
     }

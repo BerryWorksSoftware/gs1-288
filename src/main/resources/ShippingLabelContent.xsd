@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="shippingLabelContent" type="shippingLabelContent"/>
+
+    <xs:complexType name="shippingLabelContent">
+        <xs:sequence>
+            <xs:element name="shipFrom" type="partyIdentification"/>
+            <xs:element name="shipTo" type="partyIdentification"/>
+            <xs:element name="carrier" type="carrierInformation" minOccurs="0"/>
+            <xs:element name="sscc" type="xs:string"/>
+            <xs:element name="purchaseOrderNumber" type="xs:string" minOccurs="0"/>
+            <xs:element name="zoneE" type="zone" minOccurs="0"/>
+            <xs:element name="zoneF" type="zone" minOccurs="0"/>
+            <xs:element name="zoneG" type="zone" minOccurs="0"/>
+            <xs:element name="zoneH" type="zone" minOccurs="0"/>
+        </xs:sequence>
+
+    </xs:complexType>
+    <xs:complexType name="partyIdentification">
+        <xs:sequence>
+            <xs:element name="type_N101" type="xs:string" minOccurs="0"/>
+            <xs:element name="name_N102" type="xs:string"/>
+            <xs:element name="addressLine1_N301" type="xs:string" minOccurs="0"/>
+            <xs:element name="addressLine2_N302" type="xs:string" minOccurs="0"/>
+            <xs:element name="city_N401" type="xs:string" minOccurs="0"/>
+            <xs:element name="stateOrProvince_N402" type="xs:string" minOccurs="0"/>
+            <xs:element name="postalCode_N403" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="carrierInformation">
+        <xs:sequence>
+            <xs:element name="scac" type="xs:string" minOccurs="0"/>
+            <xs:element name="nonScacName" type="xs:string" minOccurs="0"/>
+            <xs:element name="billOfLading_REF_BM" type="xs:string" minOccurs="0"/>
+            <xs:element name="proInvoice_REF_CN" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="zone">
+        <xs:sequence>
+            <xs:element name="line1" type="xs:string" minOccurs="0"/>
+            <xs:element name="line2" type="xs:string" minOccurs="0"/>
+            <xs:element name="line3" type="xs:string" minOccurs="0"/>
+            <xs:element name="line4" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>
+
